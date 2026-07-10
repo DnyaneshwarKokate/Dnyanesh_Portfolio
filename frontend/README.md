@@ -11,7 +11,8 @@ A state-of-the-art developer portfolio and content management dashboard built us
 3. **Secure Administrative Workspace**:
    - **Hydration Security Check**: Intercepts mount lifecycle states to prevent unauthorized access or rendering of page code unless validation criteria are checked.
    - **JWT Expired Interceptor**: Redirects users to the login screen and wipes local storage variables when any backend query returns a `401 Unauthorized` response.
-   - **Four-Tab Navigation Panel**: Handles inquiries review, project editing, skill configurations, and experience entries in dedicated screens.
+   - **Five-Tab Navigation Panel**: Handles inquiries review, project editing, skill configurations, experience entries, and **Co-Admin Registration** in dedicated screens.
+   - **Forgot Password OTP Flow**: Integrates secure OTP verification code request and password resets directly on the login screen.
 4. **Dynamic API Configuration**: Resolves the backend base URL dynamically from environment variables (`NEXT_PUBLIC_API_URL`) with a fallback for local development.
 
 ---

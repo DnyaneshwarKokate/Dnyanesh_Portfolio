@@ -42,6 +42,14 @@ Render is a developer-friendly cloud hosting platform that supports Go Web Servi
    - **Value**: `8081` *(Matches the port registered in Go)*
    - **Key**: `JWT_SECRET`
    - **Value**: `your_custom_secure_jwt_token_secret`
+   - **Key**: `SMTP_HOST` *(Optional, e.g. smtp.gmail.com)*
+   - **Value**: `smtp.gmail.com`
+   - **Key**: `SMTP_PORT` *(Optional, e.g. 587)*
+   - **Value**: `587`
+   - **Key**: `SMTP_USER` *(Optional, e.g. yourAddress@gmail.com)*
+   - **Value**: `yourAddress@gmail.com`
+   - **Key**: `SMTP_PASS` *(Optional, your App Password)*
+   - **Value**: `yourGmailAppPassword`
 6. Click **Create Web Service**.
 
 ### ⚠️ GORM SQLite Database Warning on Serverless hosting

@@ -48,17 +48,24 @@ backend/
 | **GET** | `/api/experience`| Fetch work experience timelines |
 | **POST**| `/api/contact` | Submit a new contact inquiry |
 | **POST**| `/api/auth/login` | Administrator authentication (returns JWT) |
+| **POST**| `/api/auth/forgot-password` | Request password reset verification OTP code |
+| **POST**| `/api/auth/reset-password` | Verify OTP and reset password details |
 
 ### Protected Administrative Endpoints (Requires Bearer JWT)
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | **GET** | `/api/dashboard/messages` | Retrieve all submitted contact inquiries |
+| **DELETE**| `/api/dashboard/messages/:id` | Delete a specific contact inquiry |
+| **POST**| `/api/dashboard/users` | Register a new administrator user |
 | **POST**| `/api/dashboard/projects` | Register a new showcase project |
 | **PUT** | `/api/dashboard/projects/:id`| Update details of an existing project |
+| **DELETE**| `/api/dashboard/projects/:id` | Delete a showcase project |
 | **POST**| `/api/dashboard/skills` | Register a new technical skill rating |
 | **PUT** | `/api/dashboard/skills/:id` | Update details of an existing skill |
+| **DELETE**| `/api/dashboard/skills/:id` | Delete a technical skill rating |
 | **POST**| `/api/dashboard/experience` | Register a new work experience timeline |
 | **PUT** | `/api/dashboard/experience/:id`| Update details of an existing experience |
+| **DELETE**| `/api/dashboard/experience/:id`| Delete an experience timeline entry |
 
 ---
 
