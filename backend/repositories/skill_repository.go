@@ -10,6 +10,7 @@ type SkillRepository interface {
 	FindByID(id uint) (*models.Skill, error)
 	Create(skill *models.Skill) error
 	Update(skill *models.Skill) error
+	Delete(id uint) error
 }
 
 type skillRepository struct {
@@ -41,4 +42,8 @@ func (r *skillRepository) Create(skill *models.Skill) error {
 
 func (r *skillRepository) Update(skill *models.Skill) error {
 	return r.db.Save(skill).Error
+}
+
+func (r *skillRepository) Delete(id uint) error {
+	return r.db.Delete(&models.Skill{}, id).Error
 }

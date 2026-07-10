@@ -10,6 +10,7 @@ type ProjectRepository interface {
 	FindByID(id uint) (*models.Project, error)
 	Create(project *models.Project) error
 	Update(project *models.Project) error
+	Delete(id uint) error
 }
 
 type projectRepository struct {
@@ -41,4 +42,8 @@ func (r *projectRepository) Create(project *models.Project) error {
 
 func (r *projectRepository) Update(project *models.Project) error {
 	return r.db.Save(project).Error
+}
+
+func (r *projectRepository) Delete(id uint) error {
+	return r.db.Delete(&models.Project{}, id).Error
 }

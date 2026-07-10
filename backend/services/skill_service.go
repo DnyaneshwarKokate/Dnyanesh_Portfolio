@@ -10,6 +10,7 @@ type SkillService interface {
 	GetAllSkills() ([]models.Skill, error)
 	CreateSkill(dto dtos.CreateSkillDTO) (*models.Skill, error)
 	UpdateSkill(id uint, dto dtos.CreateSkillDTO) (*models.Skill, error)
+	DeleteSkill(id uint) error
 }
 
 type skillService struct {
@@ -53,4 +54,8 @@ func (s *skillService) UpdateSkill(id uint, dto dtos.CreateSkillDTO) (*models.Sk
 		return nil, err
 	}
 	return skill, nil
+}
+
+func (s *skillService) DeleteSkill(id uint) error {
+	return s.repo.Delete(id)
 }

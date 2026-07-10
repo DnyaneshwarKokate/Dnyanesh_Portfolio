@@ -72,11 +72,15 @@ func main() {
 		{
 			dashboard.POST("/projects", projectCtrl.CreateProject)
 			dashboard.PUT("/projects/:id", projectCtrl.UpdateProject)
+			dashboard.DELETE("/projects/:id", projectCtrl.DeleteProject)
 			dashboard.POST("/skills", skillCtrl.CreateSkill)
 			dashboard.PUT("/skills/:id", skillCtrl.UpdateSkill)
+			dashboard.DELETE("/skills/:id", skillCtrl.DeleteSkill)
 			dashboard.POST("/experience", experienceCtrl.CreateExperience)
 			dashboard.PUT("/experience/:id", experienceCtrl.UpdateExperience)
+			dashboard.DELETE("/experience/:id", experienceCtrl.DeleteExperience)
 			dashboard.GET("/messages", messageCtrl.GetMessages)
+			dashboard.DELETE("/messages/:id", messageCtrl.DeleteMessage)
 		}
 	}
 

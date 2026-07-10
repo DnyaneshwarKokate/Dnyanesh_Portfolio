@@ -103,3 +103,28 @@ func (c *ExperienceController) UpdateExperience(ctx *gin.Context) {
 
 	utils.SuccessResponse(ctx, "Experience updated successfully.", resp)
 }
+
+func (c *ExperienceController) DeleteExperience(ctx *gin.Context) {
+	defer func() {
+		if r := recover(); r != nil {
+			logrus.Errorf("DeleteExperience Panic : %v", r)
+			utils.InternalServerErrorResponse(ctx, fmt.Errorf("internal server error"))
+		}
+	}()
+
+	idStr := ctx.Param("id")
+	idVal, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		utils.BadRequestResponse(ctx, "Invalid experience ID format")
+		return
+	}
+
+	err = c.experienceService.DeleteExperience(uint(idVal))
+	if err != nil {
+		logrus.Errorf("DeleteExperience Service Error : %v", err)
+		utils.InternalServerErrorWithMessage(ctx, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(ctx, "Experience deleted successfully.", nil)
+}

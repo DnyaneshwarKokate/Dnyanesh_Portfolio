@@ -103,3 +103,28 @@ func (c *SkillController) UpdateSkill(ctx *gin.Context) {
 
 	utils.SuccessResponse(ctx, "Skill updated successfully.", resp)
 }
+
+func (c *SkillController) DeleteSkill(ctx *gin.Context) {
+	defer func() {
+		if r := recover(); r != nil {
+			logrus.Errorf("DeleteSkill Panic : %v", r)
+			utils.InternalServerErrorResponse(ctx, fmt.Errorf("internal server error"))
+		}
+	}()
+
+	idStr := ctx.Param("id")
+	idVal, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		utils.BadRequestResponse(ctx, "Invalid skill ID format")
+		return
+	}
+
+	err = c.skillService.DeleteSkill(uint(idVal))
+	if err != nil {
+		logrus.Errorf("DeleteSkill Service Error : %v", err)
+		utils.InternalServerErrorWithMessage(ctx, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(ctx, "Skill deleted successfully.", nil)
+}

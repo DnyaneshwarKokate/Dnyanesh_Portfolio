@@ -10,6 +10,7 @@ type ProjectService interface {
 	GetAllProjects() ([]models.Project, error)
 	CreateProject(dto dtos.CreateProjectDTO) (*models.Project, error)
 	UpdateProject(id uint, dto dtos.CreateProjectDTO) (*models.Project, error)
+	DeleteProject(id uint) error
 }
 
 type projectService struct {
@@ -61,4 +62,8 @@ func (s *projectService) UpdateProject(id uint, dto dtos.CreateProjectDTO) (*mod
 		return nil, err
 	}
 	return proj, nil
+}
+
+func (s *projectService) DeleteProject(id uint) error {
+	return s.repo.Delete(id)
 }

@@ -103,3 +103,28 @@ func (c *ProjectController) UpdateProject(ctx *gin.Context) {
 
 	utils.SuccessResponse(ctx, "Project updated successfully.", resp)
 }
+
+func (c *ProjectController) DeleteProject(ctx *gin.Context) {
+	defer func() {
+		if r := recover(); r != nil {
+			logrus.Errorf("DeleteProject Panic : %v", r)
+			utils.InternalServerErrorResponse(ctx, fmt.Errorf("internal server error"))
+		}
+	}()
+
+	idStr := ctx.Param("id")
+	idVal, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		utils.BadRequestResponse(ctx, "Invalid project ID format")
+		return
+	}
+
+	err = c.projectService.DeleteProject(uint(idVal))
+	if err != nil {
+		logrus.Errorf("DeleteProject Service Error : %v", err)
+		utils.InternalServerErrorWithMessage(ctx, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(ctx, "Project deleted successfully.", nil)
+}

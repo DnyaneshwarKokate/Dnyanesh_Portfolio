@@ -10,6 +10,7 @@ type ExperienceService interface {
 	GetAllExperiences() ([]models.Experience, error)
 	CreateExperience(dto dtos.CreateExperienceDTO) (*models.Experience, error)
 	UpdateExperience(id uint, dto dtos.CreateExperienceDTO) (*models.Experience, error)
+	DeleteExperience(id uint) error
 }
 
 type experienceService struct {
@@ -61,4 +62,8 @@ func (s *experienceService) UpdateExperience(id uint, dto dtos.CreateExperienceD
 		return nil, err
 	}
 	return exp, nil
+}
+
+func (s *experienceService) DeleteExperience(id uint) error {
+	return s.repo.Delete(id)
 }

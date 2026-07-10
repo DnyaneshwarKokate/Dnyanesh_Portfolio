@@ -8,6 +8,7 @@ import (
 type MessageRepository interface {
 	FindAll() ([]models.Message, error)
 	Create(message *models.Message) error
+	Delete(id uint) error
 }
 
 type messageRepository struct {
@@ -26,4 +27,8 @@ func (r *messageRepository) FindAll() ([]models.Message, error) {
 
 func (r *messageRepository) Create(message *models.Message) error {
 	return r.db.Create(message).Error
+}
+
+func (r *messageRepository) Delete(id uint) error {
+	return r.db.Delete(&models.Message{}, id).Error
 }

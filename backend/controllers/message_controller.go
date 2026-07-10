@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"portfolio-backend/constant"
 	"portfolio-backend/dtos"
 	"portfolio-backend/services"
@@ -65,4 +66,29 @@ func (c *MessageController) SubmitContact(ctx *gin.Context) {
 	}
 
 	utils.SuccessResponse(ctx, "Contact message submitted successfully.", resp)
+}
+
+func (c *MessageController) DeleteMessage(ctx *gin.Context) {
+	defer func() {
+		if r := recover(); r != nil {
+			logrus.Errorf("DeleteMessage Panic : %v", r)
+			utils.InternalServerErrorResponse(ctx, fmt.Errorf("internal server error"))
+		}
+	}()
+
+	idStr := ctx.Param("id")
+	idVal, err := strconv.ParseUint(idStr, 10, 32)
+	if err != nil {
+		utils.BadRequestResponse(ctx, "Invalid message ID format")
+		return
+	}
+
+	err = c.messageService.DeleteMessage(uint(idVal))
+	if err != nil {
+		logrus.Errorf("DeleteMessage Service Error : %v", err)
+		utils.InternalServerErrorWithMessage(ctx, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(ctx, "Contact message deleted successfully.", nil)
 }

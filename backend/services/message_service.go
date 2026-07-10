@@ -10,6 +10,7 @@ import (
 type MessageService interface {
 	GetAllMessages() ([]models.Message, error)
 	SubmitMessage(dto dtos.CreateMessageDTO) (*models.Message, error)
+	DeleteMessage(id uint) error
 }
 
 type messageService struct {
@@ -38,4 +39,8 @@ func (s *messageService) SubmitMessage(dto dtos.CreateMessageDTO) (*models.Messa
 		return nil, err
 	}
 	return msg, nil
+}
+
+func (s *messageService) DeleteMessage(id uint) error {
+	return s.repo.Delete(id)
 }

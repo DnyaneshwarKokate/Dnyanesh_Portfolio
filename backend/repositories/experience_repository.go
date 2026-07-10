@@ -10,6 +10,7 @@ type ExperienceRepository interface {
 	FindByID(id uint) (*models.Experience, error)
 	Create(experience *models.Experience) error
 	Update(experience *models.Experience) error
+	Delete(id uint) error
 }
 
 type experienceRepository struct {
@@ -41,4 +42,8 @@ func (r *experienceRepository) Create(experience *models.Experience) error {
 
 func (r *experienceRepository) Update(experience *models.Experience) error {
 	return r.db.Save(experience).Error
+}
+
+func (r *experienceRepository) Delete(id uint) error {
+	return r.db.Delete(&models.Experience{}, id).Error
 }

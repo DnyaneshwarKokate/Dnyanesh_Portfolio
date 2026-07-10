@@ -377,7 +377,77 @@ export default function DashboardPage() {
       setStatusMsg({ text: err.message || 'Error occurred', type: 'error' });
     }
   };
+  const handleDeleteProject = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this project?')) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/dashboard/projects/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete project');
+      }
+      setStatusMsg({ text: 'Project deleted successfully!', type: 'success' });
+      fetchProjects();
+    } catch (err: any) {
+      setStatusMsg({ text: err.message || 'Error occurred', type: 'error' });
+    }
+  };
 
+  const handleDeleteSkill = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this skill?')) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/dashboard/skills/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete skill');
+      }
+      setStatusMsg({ text: 'Skill deleted successfully!', type: 'success' });
+      fetchSkills();
+    } catch (err: any) {
+      setStatusMsg({ text: err.message || 'Error occurred', type: 'error' });
+    }
+  };
+
+  const handleDeleteExperience = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this experience timeline entry?')) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/dashboard/experience/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete experience');
+      }
+      setStatusMsg({ text: 'Experience deleted successfully!', type: 'success' });
+      fetchExperiences();
+    } catch (err: any) {
+      setStatusMsg({ text: err.message || 'Error occurred', type: 'error' });
+    }
+  };
+
+  const handleDeleteMessage = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this message?')) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/dashboard/messages/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to delete message');
+      }
+      setStatusMsg({ text: 'Contact message deleted successfully!', type: 'success' });
+      fetchMessages(token!);
+    } catch (err: any) {
+      setStatusMsg({ text: err.message || 'Error occurred', type: 'error' });
+    }
+  };
   const getTagClass = (category: string) => {
     if (category.toLowerCase().includes('go')) return styles.tagCyan;
     if (category.toLowerCase().includes('.net')) return styles.tagBlue;
@@ -522,9 +592,14 @@ export default function DashboardPage() {
                           <span className={styles.senderName}>{msg.name}</span>
                           <span className={styles.senderEmail}>({msg.email})</span>
                         </div>
-                        <span className={styles.messageTime}>
-                          {new Date(msg.createdAt).toLocaleDateString()} {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                          <span className={styles.messageTime}>
+                            {new Date(msg.createdAt).toLocaleDateString()} {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                          <button onClick={() => handleDeleteMessage(msg.id)} className={styles.deleteBtn} style={{ padding: '0.25rem 0.5rem', fontSize: '0.75rem', borderRadius: '4px' }}>
+                            Delete
+                          </button>
+                        </div>
                       </div>
                       <div className={styles.messageSubject}>
                         Subject: {msg.subject || 'No Subject'}
@@ -656,9 +731,14 @@ export default function DashboardPage() {
                           {p.technologies && `• ${p.technologies}`}
                         </span>
                       </div>
-                      <button onClick={() => startEditProject(p)} className={styles.editBtn}>
-                        <Edit size={14} /> Edit
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button onClick={() => startEditProject(p)} className={styles.editBtn}>
+                          <Edit size={14} /> Edit
+                        </button>
+                        <button onClick={() => handleDeleteProject(p.id)} className={styles.deleteBtn}>
+                          <X size={14} /> Delete
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -738,9 +818,14 @@ export default function DashboardPage() {
                         <h4>{s.name}</h4>
                         <span>{s.category} • Expertise Level: {s.level}%</span>
                       </div>
-                      <button onClick={() => startEditSkill(s)} className={styles.editBtn}>
-                        <Edit size={14} /> Edit
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button onClick={() => startEditSkill(s)} className={styles.editBtn}>
+                          <Edit size={14} /> Edit
+                        </button>
+                        <button onClick={() => handleDeleteSkill(s.id)} className={styles.deleteBtn}>
+                          <X size={14} /> Delete
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -871,9 +956,14 @@ export default function DashboardPage() {
                           {exp.isIntern && <span className={`${styles.tag} ${styles.tagPurple}`}>Internship</span>}
                         </span>
                       </div>
-                      <button onClick={() => startEditExperience(exp)} className={styles.editBtn}>
-                        <Edit size={14} /> Edit
-                      </button>
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button onClick={() => startEditExperience(exp)} className={styles.editBtn}>
+                          <Edit size={14} /> Edit
+                        </button>
+                        <button onClick={() => handleDeleteExperience(exp.id)} className={styles.deleteBtn}>
+                          <X size={14} /> Delete
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
